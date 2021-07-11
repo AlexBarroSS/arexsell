@@ -2,9 +2,10 @@
 
 App for stock control
 
-### Stack
+## Stack
 
-Made with:
+### backend
+
 Python
 Django
 Django Ninja
@@ -30,8 +31,10 @@ python manage.py migrate
 
 python manage.py runserver
 
+### Frontend
 
-#### GIT
+
+### GIT
 
 git branch
 
