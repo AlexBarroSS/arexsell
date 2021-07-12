@@ -2,12 +2,39 @@
 
 App for stock control
 
+Backend: apis_arexsell
+
+Frontend: app_arexsell
+
+## GIT
+
+git branch
+
+git pull
+
+git checkout -b branch_name
+
+git switch branch_name
+
+git add .
+
+git commit -m "done"
+
+git push --set-upstream origin branch_name
+
+git push
+
+git switch main
+
 ## Stack
+
 
 ### backend
 
 Python
+
 Django
+
 Django Ninja
 
 #### DOCS
@@ -33,26 +60,21 @@ python manage.py runserver
 
 ### Frontend
 
+Dart
 
-### GIT
+Flutter
 
-git branch
 
-git pull
+#### Run app
 
-git checkout -b branch_name
+flutter run
 
-git switch branch_name
+flutter config --enable-web
 
-git add .
+flutter build web
 
-git commit -m "done"
 
-git push --set-upstream origin branch_name
 
-git push
-
-git switch main
 
 
 
