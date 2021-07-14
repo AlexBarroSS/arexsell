@@ -42,10 +42,11 @@ Django Ninja
 api/docs
 
 #### Virtualnv
+/penv
 
 python -m virtualenv venv
 
-python -m pip install .\requirements.txt
+python -m pip install -r .\requirements.txt
 
 .\venv\Scripts\activate
 
@@ -57,6 +58,8 @@ python manage.py makemigrations
 python manage.py migrate
 
 python manage.py runserver
+
+python manage.py test
 
 ### Frontend
 
