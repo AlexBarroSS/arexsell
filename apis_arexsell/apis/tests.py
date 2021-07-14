@@ -36,22 +36,12 @@ user_object_with_email_invalid = UserLogin(
 
 
 class UserTestCase(TestCase):
-    def test_user_class(self):
-        setup_user = UserLogin(
-            name=user_json.get("name"),
-            password=user_json.get("password"),
-            email=user_json.get("email")
-        )
-
-        self.assertEquals(
-            setup_user.is_correct_password(user_json.get("password")), True)
-
     def test_register_user_valid(self):
         is_registred = user_object.register_user()
 
         self.assertEquals(is_registred.get('success'), True)
 
-        user_registred = UserLogin.get_user_by_name(user_object.name)
+        user_registred = UserLogin.get_user(user_object.name)
 
         self.assertEquals(user_registred.get('success'), True)
         self.assertEquals(user_registred.get(
@@ -68,7 +58,12 @@ class UserTestCase(TestCase):
 
         self.assertEquals(is_registred.get('success'), True)
 
-        is_user_altered = user_object_altered.update_user()
+        user_id = UserLogin.get_user_by_id(
+            is_registred.get("user").get("id")).get("user").get("id")
+
+        self.assertEquals(user_id, is_registred.get("user").get("id"))
+
+        is_user_altered = user_object_altered.update_user(user_id)
 
         self.assertEquals(is_user_altered.get("success"), True)
         self.assertEquals(is_user_altered.get('user')
@@ -84,4 +79,37 @@ class UserTestCase(TestCase):
 
         self.assertNotEquals(ramdom_password, user_object.password)
         self.assertEquals(
-            user_object.is_correct_password(ramdom_password), True)
+            user_object.is_correct_password(ramdom_password, user_object.password), True)
+
+    def test_get_user(self):
+        is_registred = user_object.register_user()
+
+        self.assertEquals(is_registred.get('success'), True)
+
+        user_registred = UserLogin.get_user(user_object.name)
+
+        self.assertTrue(UserLogin.is_correct_password(
+            user_object.password, user_registred.get('user').get('password')))
+
+        self.assertEquals(user_registred.get(
+            'user').get('name'), user_object.name)
+        self.assertEquals(user_registred.get(
+            'user').get('email'), user_object.email)
+
+        user_id = user_registred.get("user").get("id")
+
+        user_by_id = UserLogin.get_user_by_id(user_id).get("user")
+
+        self.assertEquals(user_id, user_by_id.get("id"))
+
+    def test_login(self):
+        is_registred = user_object.register_user()
+
+        self.assertEquals(is_registred.get('success'), True)
+
+        user = UserLogin.get_user(user_object.name)
+
+        self.assertEquals(user.get('success'), True)
+
+        self.assertTrue(UserLogin.is_correct_password(
+            user_object.password, user.get('user').get('password')))
