@@ -17,7 +17,6 @@ class UserLogin:
                 password=UserLogin.encrypt_password(self.password),
                 email=self.email
             )
-
             validate_email(user.email)
             user.save()
 
@@ -29,7 +28,6 @@ class UserLogin:
     def update_user(self, id):
         try:
             validate_email(self.email)
-
             user = User.objects.get(id=id)
 
             user.name = self.name
