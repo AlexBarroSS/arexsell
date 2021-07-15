@@ -1,14 +1,17 @@
 import json
-from apis.modules.login.auth import UserLogin
+import jwt
+import datetime
 
 from ninja import NinjaAPI
 from ninja.security import django_auth
 from ninja.security import HttpBearer
 from ninja.security import HttpBasicAuth
 
+from apis.modules.login.auth import UserLogin
+
 api = NinjaAPI()
 
-key = {"kid": "ID", "thumbprint": "DFPAiAxsWHAu3vSpg4Q4Nl-z_q5c2kVtdo8pwG18uBg"}
+KEY = "DFPAiAxsWHAu3vSpg4Q4Nl-z_q5c2kVtdo8pwG18uBg"
 
 
 class BasicAuth(HttpBasicAuth):
@@ -20,7 +23,14 @@ class BasicAuth(HttpBasicAuth):
 
                 return {
                     "success": True,
-                    "id": user.get("user").get("id")
+                    "data": jwt.encode(
+                        {
+                            "user": user.get("user"),
+                            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
+                        },
+                        KEY,
+                        algorithm="HS256",
+                    )
                 }
             return {"success": False}
         return {"success": False}
