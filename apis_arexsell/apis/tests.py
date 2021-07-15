@@ -127,13 +127,13 @@ class UserTestCase(TestCase):
 
 class LoginTestCase(TestCase):
     def test_login_get_token_unauthorized(self):
-        response = requests.get(f'{base_url}/api/auth',
+        response = requests.get(f'{base_url}/api/auth/',
                                 auth=HTTPBasicAuth("admin", "secret")).json()
         self.assertEquals(response.get("token").get("success"), False)
 
     def test_login_get_token_ok(self):
         response = requests.get(
-            f'{base_url}/api/auth',
+            f'{base_url}/api/auth/',
             auth=HTTPBasicAuth(user_object.name, user_object.password)).json()
 
         data_jwt = jwt.decode(
