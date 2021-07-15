@@ -1,5 +1,8 @@
 
+import requests
 import random
+
+from requests.auth import HTTPBasicAuth
 from django.test import TestCase
 
 from apis.modules.login.auth import UserLogin
@@ -113,3 +116,28 @@ class UserTestCase(TestCase):
 
         self.assertTrue(UserLogin.is_correct_password(
             user_object.password, user.get('user').get('password')))
+
+
+key = {"kid": "ID", "thumbprint": "DFPAiAxsWHAu3vSpg4Q4Nl-z_q5c2kVtdo8pwG18uBg"}
+
+base_url = 'http://127.0.0.1:8000'
+
+
+class LoginTestCase(TestCase):
+    def test_login_get_token_unauthorized(self):
+        response = requests.get(f'{base_url}/api/auth',
+                                auth=HTTPBasicAuth("admin", "secret")).json()
+        self.assertEquals(response.get("token").get("success"), False)
+
+    def test_login_get_token_ok(self):
+        response = requests.get(
+            f'{base_url}/api/auth',
+            auth=HTTPBasicAuth(user_object.name, user_object.password)).json()
+
+        self.assertEquals(response.get("token").get("success"), True)
+
+        response = requests.get(
+            f'{base_url}/api/auth',
+            auth=HTTPBasicAuth(user_object.name, user_object.password)).json()
+
+        self.assertEquals(response.get("token").get("success"), True)
